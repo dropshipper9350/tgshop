@@ -1,0 +1,10 @@
+# Secrets - never commit or zip this
+.env
+
+# Database (contains real user data + account credentials)
+data/
+*.db
+
+# Python cache
+__pycache__/
+*.pyc
