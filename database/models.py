@@ -85,7 +85,7 @@ async def create_tables():
         """, (
             "ChatGPT Plus",
             1.5,
-            "30 Days Shared Account"
+            "Without Warranty"
         ))
 
         await db.commit()
