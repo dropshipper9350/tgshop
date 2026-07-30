@@ -10,6 +10,7 @@ from states.payment import PaymentState
 router = Router()
 
 MAX_QUANTITY = 999
+MIN_QUANTITY = 50
 
 
 @router.message(F.text == "🛒 Buy")
@@ -109,7 +110,7 @@ async def ask_custom_quantity(callback: CallbackQuery, state: FSMContext):
     await state.update_data(product_id=product_id)
 
     await callback.message.edit_text(
-        f"✏️ Type how many you want (1-{MAX_QUANTITY}):"
+        f"✏️ Type how many you want ({MIN_QUANTITY}-{MAX_QUANTITY}):"
     )
 
     await state.set_state(PaymentState.waiting_for_custom_quantity)
@@ -124,15 +125,15 @@ async def receive_custom_quantity(message: Message, state: FSMContext):
 
     if not text.isdigit():
         await message.answer(
-            f"❌ Please send a whole number, like 3. Try again (1-{MAX_QUANTITY}):"
+            f"❌ Please send a whole number, like {MIN_QUANTITY}. Try again (1-{MAX_QUANTITY}):"
         )
         return
 
     quantity = int(text)
 
-    if quantity < 1 or quantity > MAX_QUANTITY:
+    if quantity < MIN_QUANTITY or quantity > MAX_QUANTITY:
         await message.answer(
-            f"❌ Please enter a number between 1 and {MAX_QUANTITY}."
+            f"❌ Please enter a number between {MIN_QUANTITY} and {MAX_QUANTITY}."
         )
         return
 
