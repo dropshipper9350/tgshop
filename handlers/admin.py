@@ -3,7 +3,7 @@ from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 
-from config import ADMIN_ID
+from config import ADMIN_IDS
 from keyboards.reply import admin_keyboard
 from keyboards.inline import (
     stock_product_keyboard,
