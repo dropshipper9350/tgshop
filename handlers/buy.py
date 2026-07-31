@@ -10,7 +10,7 @@ from states.payment import PaymentState
 router = Router()
 
 MAX_QUANTITY = 999
-MIN_QUANTITY = 50
+MIN_QUANTITY = 20
 
 
 @router.message(F.text == "🛒 Buy")
