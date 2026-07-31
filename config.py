@@ -5,7 +5,7 @@ load_dotenv()
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-ADMIN_ID = int(os.getenv("ADMIN_ID"))
+ADMIN_IDS = [int(x.strip()) for x in os.getenv("ADMIN_IDS").split(",")]
 
 NETWORK = os.getenv("NETWORK")
 
