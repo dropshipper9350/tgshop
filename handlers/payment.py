@@ -3,6 +3,7 @@ from aiogram.types import CallbackQuery, Message, FSInputFile
 from aiogram.fsm.context import FSMContext
 
 from config import (
+    ADMIN_IDS,
     BINANCE_ADDRESS,
     ADMIN_ID
 )
@@ -134,7 +135,7 @@ ${total_price}
 @router.callback_query(F.data.startswith("approve:"))
 async def approve(callback: CallbackQuery):
 
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer("Not authorized.", show_alert=True)
         return
 
@@ -240,7 +241,7 @@ Thank you ❤️
 @router.callback_query(F.data.startswith("reject:"))
 async def reject(callback: CallbackQuery):
 
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer("Not authorized.", show_alert=True)
         return
 
