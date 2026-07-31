@@ -4,7 +4,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 def quantity_keyboard(product_id):
     builder = InlineKeyboardBuilder()
 
-    for qty in [50, 100, 150, 200]:
+    for qty in [20, 30]:
         builder.button(
             text=str(qty),
             callback_data=f"qty:{product_id}:{qty}"
