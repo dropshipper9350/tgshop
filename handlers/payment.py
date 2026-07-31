@@ -5,7 +5,7 @@ from aiogram.fsm.context import FSMContext
 from config import (
     ADMIN_IDS,
     BINANCE_ADDRESS,
-    ADMIN_ID
+    ADMIN_IDS
 )
 
 from database.products import get_product
@@ -116,7 +116,7 @@ ${total_price}
 """
 
     await message.bot.send_photo(
-        chat_id=ADMIN_ID,
+        chat_id=ADMIN_IDS,
         photo=photo,
         caption=caption,
         parse_mode="HTML",
