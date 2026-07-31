@@ -26,6 +26,8 @@ from database.products import (
     delete_product
 )
 
+from config import ADMIN_IDS
+
 router = Router()
 
 
@@ -47,7 +49,7 @@ async def admin_panel(message: Message):
 @router.message(F.text == "🗂 Manage Products")
 async def manage_products(message: Message):
 
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     products = await get_all_products(active_only=False)
@@ -70,7 +72,7 @@ async def manage_products(message: Message):
 @router.callback_query(F.data == "backtoproducts")
 async def back_to_products(callback: CallbackQuery):
 
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer("Not authorized.", show_alert=True)
         return
 
@@ -88,7 +90,7 @@ async def back_to_products(callback: CallbackQuery):
 @router.callback_query(F.data.startswith("manageproduct:"))
 async def manage_single_product(callback: CallbackQuery):
 
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer("Not authorized.", show_alert=True)
         return
 
@@ -124,7 +126,7 @@ Status: {status}
 @router.callback_query(F.data.startswith("activate:"))
 async def activate_product(callback: CallbackQuery):
 
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer("Not authorized.", show_alert=True)
         return
 
@@ -137,7 +139,7 @@ async def activate_product(callback: CallbackQuery):
 @router.callback_query(F.data.startswith("deactivate:"))
 async def deactivate_product(callback: CallbackQuery):
 
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer("Not authorized.", show_alert=True)
         return
 
@@ -150,7 +152,7 @@ async def deactivate_product(callback: CallbackQuery):
 @router.callback_query(F.data.startswith("deleteproduct:"))
 async def delete_product_handler(callback: CallbackQuery):
 
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer("Not authorized.", show_alert=True)
         return
 
@@ -178,7 +180,7 @@ async def delete_product_handler(callback: CallbackQuery):
 @router.callback_query(F.data == "addproduct")
 async def add_product_start(callback: CallbackQuery, state: FSMContext):
 
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer("Not authorized.", show_alert=True)
         return
 
@@ -194,7 +196,7 @@ async def add_product_start(callback: CallbackQuery, state: FSMContext):
 @router.message(AdminState.waiting_for_product_name)
 async def add_product_name(message: Message, state: FSMContext):
 
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     name = message.text.strip()
@@ -211,7 +213,7 @@ async def add_product_name(message: Message, state: FSMContext):
 @router.message(AdminState.waiting_for_product_price)
 async def add_product_price(message: Message, state: FSMContext):
 
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     try:
@@ -230,7 +232,7 @@ async def add_product_price(message: Message, state: FSMContext):
 @router.message(AdminState.waiting_for_product_description)
 async def add_product_description(message: Message, state: FSMContext):
 
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     description = message.text.strip()
@@ -264,7 +266,7 @@ Now add stock for it via <b>📤 Upload Accounts</b>.
 @router.message(F.text == "📦 Stock")
 async def stock(message: Message):
 
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     products = await get_all_products(active_only=False)
@@ -285,7 +287,7 @@ async def stock(message: Message):
 @router.message(F.text == "📤 Upload Accounts")
 async def upload_accounts(message: Message, state: FSMContext):
 
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     products = await get_all_products(active_only=False)
@@ -305,7 +307,7 @@ async def upload_accounts(message: Message, state: FSMContext):
 @router.callback_query(F.data.startswith("stockfor:"))
 async def choose_stock_product(callback: CallbackQuery, state: FSMContext):
 
-    if callback.from_user.id != ADMIN_ID:
+    if callback.from_user.id not in ADMIN_IDS:
         await callback.answer("Not authorized.", show_alert=True)
         return
 
@@ -342,7 +344,7 @@ account1@gmail.com:Password123:JBSWY3DPEHPK3PXP
 @router.message(AdminState.waiting_for_accounts)
 async def save_accounts(message: Message, state: FSMContext):
 
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     data = await state.get_data()
@@ -403,7 +405,7 @@ async def save_accounts(message: Message, state: FSMContext):
 @router.message(F.text == "💳 Pending Payments")
 async def pending(message: Message):
 
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     payments = await get_pending_payments()
@@ -438,7 +440,7 @@ async def pending(message: Message):
 @router.message(F.text == "📋 Orders")
 async def orders(message: Message):
 
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     rows = await get_last_orders()
@@ -468,7 +470,7 @@ async def orders(message: Message):
 @router.message(F.text == "👥 Users")
 async def users(message: Message):
 
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     total = await get_total_users()
@@ -497,7 +499,7 @@ async def users(message: Message):
 @router.message(F.text == "📊 Statistics")
 async def statistics(message: Message):
 
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     users = await get_total_users()
@@ -527,7 +529,7 @@ async def statistics(message: Message):
 @router.message(F.text == "📢 Broadcast")
 async def broadcast(message: Message, state: FSMContext):
 
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     await message.answer(
@@ -542,7 +544,7 @@ async def broadcast(message: Message, state: FSMContext):
 @router.message(BroadcastState.waiting_message)
 async def send_broadcast(message: Message, state: FSMContext):
 
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id not in ADMIN_IDS:
         return
 
     users = await get_all_users()
